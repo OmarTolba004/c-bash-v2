@@ -21,8 +21,10 @@
 #include <sys/types.h> /* for fork() syscall*/
 #include <unistd.h>    /* for fork() syscall*/
 #include <sys/wait.h>  /* For wait() syscall*/
+#include <limits.h>    /* For PATH_MAX*/
 #include "functions.h"
-#include <limits.h> /* For PATH_MAX*/
+#include "data_structures.h"
+#include "bash_variables.h"
 
 /**********************************************************************************************************************
  *  EXTERN GLOBAL VARIABLES
@@ -53,7 +55,21 @@ int main(int argc, char **argv)
          */
         fgets(input, sizeof(input), stdin);
         /* Tokenizing the input*/
-        char **prog_argv = CommandTokenizer(input, &tokensCount); 
+        char **prog_argv = CommandTokenizer(input, &tokensCount);
+
+        /* Secial character allocator*/
+        unsigned char specaial_char_location;
+        unsigned char special_char_return_value;
+        special_char_return_value = special_character_locater(prog_argv, &specaial_char_location);
+        if (special_char_return_value != SPECIAL_CHR_NULL)
+        {
+            if (special_char_return_value == SPECIAL_CHR_VARIABLE)
+            {
+                /* Storing Variable*/
+                adding_bash_var(prog_argv, specaial_char_location);
+                printList();
+            }
+        }
 
         /* Handling special commands*/
         if (strcmp(prog_argv[0], "exit") == 0)
@@ -62,7 +78,6 @@ int main(int argc, char **argv)
             exit(0);
         }
 
-        
         /* Forking*/
         pid_t ret_pid = fork();
 

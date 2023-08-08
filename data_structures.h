@@ -11,13 +11,21 @@
  *	Date:		  8/8/2023
  *********************************************************************************************************************/
 
+#ifndef DATA_STRUCTURES_H
+#define DATA_STRUCTURES_H
 
+#include "bash_variables.h"
 
-
-
-typedef struct
+struct node
 {
-    bash_variable data;
-    node * next;
-}node;
+    struct bash_variable * data;
+    struct node * next;
+};
 
+void insertAtLast(struct bash_variable variable);
+
+void printList(void);
+
+
+
+#endif
