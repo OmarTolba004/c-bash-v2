@@ -113,7 +113,7 @@ char **CommandTokenizer(char *input, unsigned int *tokensCount)
 	 * size of tokens need to calculate the size of pointer NULL
      * +10 for safety
 	*/
-	tokens = (char **)malloc((sizeof(char) * (numberOfLetters + tokenSeperator + 2))+ sizeof(tokens)+10*sizeof(char)); 
+	tokens = (char **)malloc((sizeof(char *) * (tokenSeperator+2))); 
 
 	/* Dynamically allocating each token*/
 	for (i = 0; i < tokenSeperator + 1; i++)

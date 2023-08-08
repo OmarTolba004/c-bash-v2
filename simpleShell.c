@@ -57,7 +57,10 @@ int main(int argc, char **argv)
 
         /* Handling special commands*/
         if (strcmp(prog_argv[0], "exit") == 0)
+        {
+            free(prog_argv);
             exit(0);
+        }
 
         /* Forking*/
         pid_t ret_pid = fork();
