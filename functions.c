@@ -17,60 +17,30 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "functions.h"
 
 /**********************************************************************************************************************
  *  local functions
  *********************************************************************************************************************/
 
-static unsigned int countNumberOfLetters(char *str);
-
-
 /**********************************************************************************************************************
  *  FUNCTIONS IMPLEMENTATIONS
  *********************************************************************************************************************/
 
-void gettingTheCommand(char *input, char **command, char *commandSize)
-{
-    /* Calculating the command size*/
-    int i = 0; // index used to interate over input string
-    while (input[i] != 32 && input[i]!=10) // 10 is the ascii of new line
-        i++; // 32 is the ascii value of space
-    *commandSize = i;
-    *command = (char *)malloc(sizeof(char) * (*commandSize));
-
-    /*assigning command to commandVar*/
-    for (i = 0; i < *commandSize; i++)
-    {
-        (*command)[i] = input[i];
-    }
-    (*command)[i] = '\0'; // adding null charachter
-}
-
-void gettingTheRestOfCommand(char *input, char **restOfCommand, char commandSize, char *restOfCommandSize)
-{
-    int i = commandSize;
-    while (input[i] != 10 && input[i]!= '\0') // 10 is the ascii of new line
-        i++;
-    char totalCommandSize = i;
-    *restOfCommandSize = i - commandSize;
-    *restOfCommand = (char *)malloc(sizeof(char) * (*restOfCommandSize));
-    /*assigning command to commandVar*/
-    for (i = commandSize + 1; i < totalCommandSize; i++)
-    {
-        (*restOfCommand)[i - (commandSize + 1)] = input[i];
-    }
-    (*restOfCommand)[i] = '\0'; // adding null charachter
-}
-
-
-
+/*******************************************************************************
+ * Service Name: CommandTokenizer
+ * Parameters (in):  input - pointer to char, Pin - Dio_PinType
+ * Parameters (inout): None
+ * Parameters (out): None
+ * Return value: Dio_LevelType
+ * Description: Function for DIO Write Channel API
+ *******************************************************************************/
 char **CommandTokenizer(char *input, unsigned int *tokensCount)
 {
 	unsigned int tokenSeperator = 0;
 	unsigned int i = 0, j = 0; /* Loops counters*/
 	char **tokens;			   /* hold all token*/
-	unsigned int numberOfLetters;
-	unsigned int k = 0; /*Reset the value of k to zero */
+	unsigned int k = 0;		   /*Reset the value of k to zero */
 
 	/* Getting Spaces count */
 	while (input[i] != 0 && input[i] != 10) // new line ASCII code is 10
@@ -97,23 +67,10 @@ char **CommandTokenizer(char *input, unsigned int *tokensCount)
 		i++;
 	}
 
-	//printf("Token separator Count is %d\n", tokenSeperator);
-
-	/* Allocat internal Tokens Pointer
-	 * Notes :
-	 * 1 - number of tokens will be number of tokenSeperator + 2(Null + last word)
-	 * 2 - malloc will allocate #numberOfPointersToChar pointers to characters and they will be passed to token variable
-	 * 	   after derefrencing
-	 */
-	numberOfLetters = countNumberOfLetters(input);
-
-	//printf("Number of letters is : %d\n", numberOfLetters);
-
 	/* Allocating Space for Token
-	 * size of tokens need to calculate the size of pointer NULL
-     * +10 for safety
-	*/
-	tokens = (char **)malloc((sizeof(char *) * (tokenSeperator+2))); 
+	 * tokens nneed to allocate the size of number of pointers which will be tokenSeperator + 2
+	 */
+	tokens = (char **)malloc((sizeof(char *) * (tokenSeperator + 2)));
 
 	/* Dynamically allocating each token*/
 	for (i = 0; i < tokenSeperator + 1; i++)
@@ -137,39 +94,45 @@ char **CommandTokenizer(char *input, unsigned int *tokensCount)
 		/* Allocating each internal token with the current tokenSize*/
 		tokens[i] = (char *)malloc(sizeof(char) * (tokenSize + 1)); // adding 1 for null terminator
 
-		//printf("TokenSize is %d\n", tokenSize);
-
 		for (j = tokenSize; j > 0; j--)
 		{
 			tokens[i][tokenSize - j] = input[k - j];
 		}
 		tokens[i][tokenSize] = '\0'; // adding null terminator
-
-		//printf("tokens[i], at i = %d and j = %d  is :%s \n", i, j, tokens[i]);
-
 	}
 
-	tokens[i] = (char *)malloc(sizeof(tokens)); /* Allocating space for last null--> note Null is of kind pointer*/
 	tokens[i] = NULL; /* Adding the last Null*/
 
-	//printf("Value of i is %d and token speerator %d\n", i, tokenSeperator);
-
-    *tokensCount = tokenSeperator+1;
+	*tokensCount = tokenSeperator + 1;
 
 	return tokens;
 }
 
-static unsigned int countNumberOfLetters(char *str)
+/*******************************************************************************
+ * Service Name: CommandTokenizer
+ * Parameters (in):  input - pointer to pointer to char, location - pointer to unsigned char
+ * Parameters (inout): None
+ * Parameters (out): None
+ * Return value: Dio_LevelType
+ * Description: Function to locate the type and the location of special character
+ *******************************************************************************/
+unsigned char special_character_locater(char **input, unsigned char *location)
 {
-	unsigned int numberOfLetters = 0;
-	unsigned int i = 0;
-	while (1)
+	unsigned int i; /* Counter to loop over input pointer to characters*/
+	unsigned int j; /* Counter to loop over the characters*/
+
+	for (i = 0; input[i] != NULL; i++)
 	{
-		if (str[i] != 32 && str[i] != 10 && str[i] != 0)
-			numberOfLetters++;
-		if (str[i] == 10 || str[i] == 0)
-			break;
-		i++;
+		/* Inner loop to loop over the characters*/
+		for (j = 0; input[i][j] != 0; j++)
+		{
+			if (input[i][j] == 61) /* The Ascii value for = is 61*/
+			{
+				*location = i; /* Setting the location of special character*/
+				return SPECIAL_CHR_VARIABLE;
+			}
+		}
 	}
-	return numberOfLetters;
+	return SPECIAL_CHR_NULL;
 }
+

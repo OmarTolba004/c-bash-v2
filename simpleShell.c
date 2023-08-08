@@ -53,7 +53,7 @@ int main(int argc, char **argv)
          */
         fgets(input, sizeof(input), stdin);
         /* Tokenizing the input*/
-        char **prog_argv = CommandTokenizer(input, &tokensCount);
+        char **prog_argv = CommandTokenizer(input, &tokensCount); 
 
         /* Handling special commands*/
         if (strcmp(prog_argv[0], "exit") == 0)
@@ -62,6 +62,7 @@ int main(int argc, char **argv)
             exit(0);
         }
 
+        
         /* Forking*/
         pid_t ret_pid = fork();
 
