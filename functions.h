@@ -15,6 +15,10 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+
+/**********************************************************************************************************************
+ *  MACROS
+ *********************************************************************************************************************/
 #define BUFFER_SIZE 1000
 
 /* Special MACROS for Errors*/
@@ -31,6 +35,19 @@
 #define SEPCIAL_CHR_VARIABLE_DEREF  2
 
 
+
+/**********************************************************************************************************************
+ *  FUNCTIONS PROTOTYPES
+ *********************************************************************************************************************/
+
+/*******************************************************************************
+ * Service Name: CommandTokenizer
+ * Parameters (in):  input - pointer to char, Pin - Dio_PinType
+ * Parameters (inout): None
+ * Parameters (out): None
+ * Return value: Dio_LevelType
+ * Description: Function for DIO Write Channel API
+ *******************************************************************************/
 char **CommandTokenizer(char *input, unsigned int *tokensCount);
 
 
@@ -42,8 +59,11 @@ char **CommandTokenizer(char *input, unsigned int *tokensCount);
  * Return value: Dio_LevelType
  * Description: Function for DIO Write Channel API
  *******************************************************************************/
-unsigned char special_character_locater(char ** input,unsigned char * location);
+unsigned char special_character_locater(char **input,
+					unsigned char *location);
+
+char **special_character_handler(char **input, unsigned char *state);
 
 
 
-#endif 
+#endif
