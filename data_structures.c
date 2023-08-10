@@ -17,13 +17,13 @@ void insertAtLast(struct bash_variable variable)
     link->data = (struct bash_variable *)malloc(sizeof(struct bash_variable));
 
     /* Allocating memory for new bash variable*/
-    link->data->name = (char *) malloc(sizeof(char) * strlen(variable.name));
-    link->data->value = (char *) malloc(sizeof(char) * strlen(variable.value));
+    link->data->name = (char *)malloc(sizeof(char) * strlen(variable.name));
+    link->data->value = (char *)malloc(sizeof(char) * strlen(variable.value));
 
     /* Copying data to the new node data*/
     strcpy((link->data)->name, variable.name);
     strcpy((link->data)->value, variable.value);
-    
+
     /* making new node pointing to NULL*/
     link->next = NULL;
 
@@ -45,6 +45,7 @@ void insertAtLast(struct bash_variable variable)
 
     /* make the last node points to the new created note*/
     current->next = link;
+
 }
 
 /* Function to print the content of the linked list*/
@@ -59,4 +60,49 @@ void printList(void)
         ptr = ptr->next;
     }
     printf(" [NULL]\n");
+    // free(ptr); /* free ptr*/
+}
+
+char *return_value_by_name(char *name)
+{
+    struct node *current = head; /* Initializing current pointer to point to head*/
+
+    if (head == NULL)
+    {
+        printf("No Variable are assigned before at all\n");
+        return NULL;
+    }
+
+    while (current != NULL)
+    {
+        if (strcmp(current->data->name, name) == 0) /* strings are equal*/
+            return current->data->value;
+        current = current->next;
+    }
+
+    printf("your variable %s doesn't exits \n", name);
+    // free(current); /* free current*/
+    return NULL; /* No variable with that name are assigned before*/
+}
+
+unsigned char return_valueSize_by_name(char *name)
+{
+    struct node *current = head; /* Initializing current pointer to point to head*/
+
+    if (head == NULL)
+    {
+        return 0;
+    }
+
+    while (current != NULL)
+    {
+        if (strcmp(current->data->name, name) == 0) /* strings are equal*/
+        {
+            return strlen(current->data->value);
+        }
+        current = current->next;
+    }
+
+    // free(current);
+    return 0; /* No variable with that name are assigned before*/
 }

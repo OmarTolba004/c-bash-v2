@@ -67,8 +67,17 @@ int main(int argc, char **argv)
             {
                 /* Storing Variable*/
                 adding_bash_var(prog_argv, specaial_char_location);
-                printList();
+                // printList();
+                continue;
             }
+
+            if(special_char_return_value==SEPCIAL_CHR_VARIABLE_DEREF)
+            {
+                //TODO progargv 
+                prog_argv = bash_variable_deref(prog_argv,specaial_char_location);
+            }
+
+    
         }
 
         /* Handling special commands*/
@@ -101,7 +110,7 @@ int main(int argc, char **argv)
 
                 if (WIFEXITED(status)) /* Break if the process terminated normally*/
                 {
-                    printf("\n"); /* Printing new line for visualiztion*/
+                    // printf("\n"); /* Printing new line for visualiztion*/
                     break;
                 }
             }

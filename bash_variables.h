@@ -29,6 +29,9 @@ struct bash_variable //TODO : is this structure has incomplete type
 
 void adding_bash_var(char **input, unsigned int index);
 
+char ** bash_variable_deref(char **input, unsigned int index);
+
+
 
 /**********************************************************************************************************************
  *  EXTERNS

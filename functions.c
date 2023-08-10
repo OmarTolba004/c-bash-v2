@@ -131,6 +131,17 @@ unsigned char special_character_locater(char **input, unsigned char *location)
 				*location = i; /* Setting the location of special character*/
 				return SPECIAL_CHR_VARIABLE;
 			}
+		
+			if (input[i][j] == 36) /* The Ascii value for $ is 36*/
+			{
+				if(j!= 0) 
+				{
+					printf("Unvalid way of using variable derefrencing \n");
+					exit(ER_VARIABLE_DEREF);
+				}
+				*location = i; /* Setting the location of special character*/
+				return SEPCIAL_CHR_VARIABLE_DEREF;
+			}
 		}
 	}
 	return SPECIAL_CHR_NULL;

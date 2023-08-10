@@ -22,10 +22,13 @@
 #define ER_WAITING_ON_CHILD_PROCESS  -2
 #define ER_EXEC -3
 #define ER_CWD -4
+#define ER_VARIABLE_DEREF   -5
+#define ER_WHILE_VARIABLE_DEREF -6
 
 /* Special Macros for identifying which special char exist in the command*/
 #define SPECIAL_CHR_NULL    0
 #define SPECIAL_CHR_VARIABLE    1
+#define SEPCIAL_CHR_VARIABLE_DEREF  2
 
 
 char **CommandTokenizer(char *input, unsigned int *tokensCount);

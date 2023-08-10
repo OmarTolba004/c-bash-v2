@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
  *  FILE DESCRIPTION
  *  -------------------------------------------------------------------------------------------------------------------
- *  File:  		  data_strucutres.h 
+ *  File:  		  data_strucutres.h
  *  Module:  	  data_structures
  *
  *  Description:  header file for data structures
@@ -18,14 +18,17 @@
 
 struct node
 {
-    struct bash_variable * data;
-    struct node * next;
+    struct bash_variable *data;
+    struct node *next;
 };
 
 void insertAtLast(struct bash_variable variable);
 
 void printList(void);
 
+char *return_value_by_name(char *name);
+
+unsigned char return_valueSize_by_name(char *name);
 
 
 #endif
