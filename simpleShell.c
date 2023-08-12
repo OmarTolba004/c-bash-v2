@@ -46,7 +46,8 @@ int main(int argc, char **argv)
 	    NULL)
 	    return ER_CWD;
 
-	printf("usr@VirtualBox$:%s$ ", current_working_dir);
+	char * user_name = getlogin();
+	printf("\033[1;32m%s@%s-VirtualBox$:\033[1;34m%s\033[1;0m$ ",user_name,user_name, current_working_dir);
 
 	/* Reading input from user */
 	/* Important Note:
