@@ -28,6 +28,8 @@
 #define ER_CWD -4
 #define ER_VARIABLE_DEREF   -5
 #define ER_WHILE_VARIABLE_DEREF -6
+#define ER_WHILE_REPLACING_VALUE_BY_NAME -7
+#define ER_WHILE_REDIRECTING -8
 
 /* Special Macros for identifying which special char exist in the command*/
 #define SPECIAL_CHR_NULL    0

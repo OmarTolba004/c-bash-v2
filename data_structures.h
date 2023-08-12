@@ -73,5 +73,7 @@ char *return_value_by_name(char *name);
  *******************************************************************************/
 unsigned char return_valueSize_by_name(char *name);
 
+void replace_value_by_name(char *name, char *value);
+
 
 #endif

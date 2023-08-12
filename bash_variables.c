@@ -34,7 +34,8 @@
  * Description: Function to add bash variable to the data structure
  *******************************************************************************/
 void adding_bash_var(char **input, unsigned int index)
-{				/* index represents the location of token who has assignment operation */
+{
+    /* index represents the location of token who has assignment operation */
     struct bash_variable bashVar;
     char *name;
     char *value;
@@ -43,27 +44,36 @@ void adding_bash_var(char **input, unsigned int index)
     unsigned int j = 0;
 
     while (input[index][j] != '=')
-	j++;
+        j++;
 
-    nameSize = j;		/* assigning nameSize */
-    valueSize = strlen(input[index]) - 1;	/* assigning valueSize */
+    nameSize = j;                         /* assigning nameSize */
+    valueSize = strlen(input[index]) - 1; /* assigning valueSize */
 
-    name = (char *) malloc(sizeof(char) * (nameSize + 1));	/* +1 for the null termiator */
-    value = (char *) malloc(sizeof(char) * (valueSize + 1));	/* +1 for the null termiator */
+    name = (char *)malloc(sizeof(char) * (nameSize + 1));   /* +1 for the null termiator */
+    value = (char *)malloc(sizeof(char) * (valueSize + 1)); /* +1 for the null termiator */
 
-    for (j = 0; j < nameSize; j++) {
-	name[j] = input[index][j];
+    for (j = 0; j < nameSize; j++)
+    {
+        name[j] = input[index][j];
     }
-    name[j] = '\0';		/* adding null terminator */
+    name[j] = '\0'; /* adding null terminator */
 
-    for (j = 0; j < valueSize; j++) {
-	value[j] = input[index][j + nameSize + 1];
+    for (j = 0; j < valueSize; j++)
+    {
+        value[j] = input[index][j + nameSize + 1];
     }
-    value[j] = '\0';		/* adding null terminator */
+    value[j] = '\0'; /* adding null terminator */
     bashVar.name = name;
     bashVar.value = value;
 
-    insertAtLast(bashVar);
+    /* Checking if variable already exists*/
+    if (return_value_by_name(name) == NULL)
+    { /* name didn't exist before*/
+        insertAtLast(bashVar); /* adding name and value pair to the data structure*/
+    } else 
+    {
+        replace_value_by_name(name,value); /* Replacing name's old value by the new value*/
+    }
 
     /* Freeing dynamically allocated memory to avoid memory leaks */
     free(name);
@@ -82,38 +92,40 @@ char **bash_variable_deref(char **input, unsigned int index)
 {
     char *name;
     unsigned char valueSize = 0;
-    unsigned char nameSize = 0;	/*Variable to hold name size */
-    unsigned int j = 0;		/* Counter used to loop over sring */
+    unsigned char nameSize = 0; /*Variable to hold name size */
+    unsigned int j = 0;         /* Counter used to loop over sring */
 
-    if (input[index][j] != '$') {
-	printf
-	    ("unexpected error while derefrencing variable, exitting ..\n");
-	exit(ER_WHILE_VARIABLE_DEREF);
+    if (input[index][j] != '$')
+    {
+        printf("unexpected error while derefrencing variable, exitting ..\n");
+        exit(ER_WHILE_VARIABLE_DEREF);
     }
 
-    j = 1;			/* Reassing j */
+    j = 1; /* Reassing j */
     while (input[index][j] != 0)
-	j++;			/* counting name size */
+        j++; /* counting name size */
 
-    nameSize = j;		/* assigning j to nameSize, +1 for null terminator */
+    nameSize = j; /* assigning j to nameSize, +1 for null terminator */
 
     /* dynamically allocating size for name */
-    name = (char *) malloc(sizeof(char) * (nameSize + 1));
+    name = (char *)malloc(sizeof(char) * (nameSize + 1));
 
-    for (j = 0; j < nameSize; j++) {
-	name[j] = input[index][j + 1];
+    for (j = 0; j < nameSize; j++)
+    {
+        name[j] = input[index][j + 1];
     }
 
-    name[j] = '\0';		/* adding null terminator */
+    name[j] = '\0'; /* adding null terminator */
 
-    valueSize = return_valueSize_by_name(name);	/* calculating value string size */
+    valueSize = return_valueSize_by_name(name); /* calculating value string size */
 
-    if (valueSize == 0) {
-	printf("Variable doesn't exist\n");
-	return input;		/* return input as it is */
+    if (valueSize == 0)
+    {
+        printf("Variable doesn't exist\n");
+        return input; /* return input as it is */
     }
 
-    input[index] = (char *) malloc(sizeof(char) * valueSize);
+    input[index] = (char *)malloc(sizeof(char) * valueSize);
 
     input[index] = return_value_by_name(name);
 
