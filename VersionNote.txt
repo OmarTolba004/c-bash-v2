@@ -1,0 +1,11 @@
+
+
+
+
+
+
+
+
+last version addition
+	1- replacing existing variable if reassigned
+	2 - adding output redirection

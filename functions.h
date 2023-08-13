@@ -35,6 +35,8 @@
 #define SPECIAL_CHR_NULL    0
 #define SPECIAL_CHR_VARIABLE    1
 #define SEPCIAL_CHR_VARIABLE_DEREF  2
+#define SEPCIAL_CHR_IOREDIRECTION_TRUNC  3
+#define SEPCIAL_CHR_IOREDIRECTION_APPEND  4
 
 
 
@@ -64,7 +66,7 @@ char **CommandTokenizer(char *input, unsigned int *tokensCount);
 unsigned char special_character_locater(char **input,
 					unsigned char *location);
 
-char **special_character_handler(char **input, unsigned char *state);
+char **special_character_handler(char **input, unsigned char *state, char ** pathName);
 
 
 

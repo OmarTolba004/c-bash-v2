@@ -26,4 +26,29 @@
  *  FUNCTIONS PROTOTYPES
  *********************************************************************************************************************/
 
-void IORedirection_redirecting_turnc(unsigned int redirectionType, const char *pathName);
+
+/*******************************************************************************
+ * Service Name: IORedirection_redirecting_trunc
+ * Parameters (in):  redirectionType - unsigned int, pathName - pointer to const char
+ * Parameters (inout): None
+ * Parameters (out): None
+ * Return value: void
+ * Description: Function to IORedirection and truncate the redirected file
+ *******************************************************************************/
+void IORedirection_redirecting_trunc(unsigned int redirectionType, const char *pathName);
+
+
+/*******************************************************************************
+ * Service Name: IORedirection_redirecting_append
+ * Parameters (in):  redirectionType - unsigned int, pathName - pointer to const char
+ * Parameters (inout): None
+ * Parameters (out): None
+ * Return value: void
+ * Description: Function to IORedirection and appaned on the redirected file
+ *******************************************************************************/
+void IORedirection_redirecting_append(unsigned int redirectionType, const char *pathName);
+
+
+
+
+char * IORedirection_Seperating_the_command(char ***input, unsigned char index);

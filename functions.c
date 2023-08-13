@@ -16,8 +16,11 @@
  *********************************************************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 #include "functions.h"
 #include "bash_variables.h"
+#include "IORedirection.h"
 /**********************************************************************************************************************
  *  FUNCTIONS IMPLEMENTATIONS
  *********************************************************************************************************************/
@@ -137,6 +140,18 @@ unsigned char special_character_locater(char **input,
 				*location = i; /* Setting the location of special character */
 				return SEPCIAL_CHR_VARIABLE_DEREF;
 			}
+
+			if (input[i][j] == '>' && input[i][j + 1] != '>')
+			{				   /* IO redirection with trunc*/
+				*location = i; /* Setting the location of special character */
+				return SEPCIAL_CHR_IOREDIRECTION_TRUNC;
+			}
+
+			if (input[i][j] == '>' && input[i][j + 1] == '>')
+			{				   /* IO redirection with append*/
+				*location = i; /* Setting the location of special character */
+				return SEPCIAL_CHR_IOREDIRECTION_APPEND;
+			}
 		}
 	}
 	return SPECIAL_CHR_NULL;
@@ -150,11 +165,12 @@ unsigned char special_character_locater(char **input,
  * Return value: char **
  * Description: Function to handle input special character
  *******************************************************************************/
-char **special_character_handler(char **input, unsigned char *state)
+char **special_character_handler(char **input, unsigned char *state, char **pathName)
 {
 	/* Secial character allocator */
 	unsigned char specaial_char_location;
 	unsigned char special_char_return_value;
+	*pathName = NULL; /* Default value for pahtName*/
 	special_char_return_value =
 		special_character_locater(input, &specaial_char_location);
 	if (special_char_return_value != SPECIAL_CHR_NULL)
@@ -169,10 +185,25 @@ char **special_character_handler(char **input, unsigned char *state)
 
 		if (special_char_return_value == SEPCIAL_CHR_VARIABLE_DEREF)
 		{
-			// TODO progargv
 			input = bash_variable_deref(input, specaial_char_location);
 			*state = SEPCIAL_CHR_VARIABLE_DEREF;
 			return input;
 		}
+
+		if (special_char_return_value == SEPCIAL_CHR_IOREDIRECTION_TRUNC)
+		{
+			*pathName = IORedirection_Seperating_the_command(&input, specaial_char_location);
+			*state = SEPCIAL_CHR_IOREDIRECTION_TRUNC;
+			return input;
+		}
+
+		if (special_char_return_value == SEPCIAL_CHR_IOREDIRECTION_APPEND)
+		{
+			*pathName = IORedirection_Seperating_the_command(&input, specaial_char_location);
+			*state = SEPCIAL_CHR_IOREDIRECTION_APPEND;
+			return input;
+		}
 	}
+
+	return input; /* return input in the default case*/
 }

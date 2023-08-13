@@ -1,5 +1,5 @@
-output : simpleShell.c functions.c data_structures.c bash_variables.c
-	@gcc simpleShell.c functions.c data_structures.c bash_variables.c -o output
+output : simpleShell.c functions.c data_structures.c bash_variables.c IORedirection.c
+	@gcc -g simpleShell.c functions.c data_structures.c bash_variables.c IORedirection.c -o output
 
 
 
