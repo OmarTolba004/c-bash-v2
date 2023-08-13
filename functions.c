@@ -158,8 +158,8 @@ unsigned char special_character_locater(char **input,
 }
 
 /*******************************************************************************
- * Service Name: CommandTokenizer
- * Parameters (in):  input - pointer to pointer to char, state - pointer to unsigned char
+ * Service Name: special_character_handler
+ * Parameters (in):  input - pointer to pointer to char, state - pointer to unsigned char , pathName - char **
  * Parameters (inout): None
  * Parameters (out): None
  * Return value: char **
