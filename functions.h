@@ -66,6 +66,15 @@ char **CommandTokenizer(char *input, unsigned int *tokensCount);
 unsigned char special_character_locater(char **input,
 					unsigned char *location);
 
+
+/*******************************************************************************
+ * Service Name: special_character_handler
+ * Parameters (in):  input - pointer to pointer to char, state - pointer to unsigned char , pathName - char **
+ * Parameters (inout): None
+ * Parameters (out): None
+ * Return value: char **
+ * Description: Function to handle input special character
+ *******************************************************************************/
 char **special_character_handler(char **input, unsigned char *state, char ** pathName);
 
 

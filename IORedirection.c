@@ -102,6 +102,15 @@ void IORedirection_redirecting_append(unsigned int redirectionType, const char *
     }
 }
 
+
+/*******************************************************************************
+ * Service Name: IORedirection_Seperating_the_command
+ * Parameters (in):  input - pointer to pointer to char, state - unsigned char index
+ * Parameters (inout): None
+ * Parameters (out): None
+ * Return value: char *
+ * Description: Function to seperate the command in the case of IORedirection
+ *******************************************************************************/
 char * IORedirection_Seperating_the_command(char ***input, unsigned char index)
 {
     unsigned short after_arrow_size = 0; /* after arrow size which need to be calculated*/

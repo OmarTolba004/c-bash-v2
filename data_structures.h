@@ -73,6 +73,15 @@ char *return_value_by_name(char *name);
  *******************************************************************************/
 unsigned char return_valueSize_by_name(char *name);
 
+
+/*******************************************************************************
+ * Service Name: replace_value_by_name
+ * Parameters (in):  char * - name
+ * Parameters (inout): None
+ * Parameters (out): None
+ * Return value: void
+ * Description: function to relpce value of data structure using the name
+ *******************************************************************************/
 void replace_value_by_name(char *name, char *value);
 
 
